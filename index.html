@@ -5,115 +5,301 @@
   <title>Email Alerts - Sonic Healthcare</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f6fa;
       margin: 0;
       padding: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f5fa;
+      color: #152c5b;
     }
-    .container {
-      max-width: 420px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 22px 18px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
-      border-radius: 8px;
-      border: 1px solid #e5e5ee;
+    .topbar {
+      background: #153573;
+      color: white;
+      padding: 0.9em 0;
+      text-align: center;
+      font-size: 1.4em;
+      font-weight: bold;
+      letter-spacing: 0.04em;
     }
-    h1 {
-      color: #205087;
-      font-size: 1.6em;
-      margin-bottom: 16px;
+    .header {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 4vw 0 4vw;
+      border-bottom: 1px solid #e0e0e4;
     }
-    label {
-      margin-right: 8px;
+    .header img {
+      height: 40px;
+      margin-right: 12px;
+    }
+    .header .nav {
+      display: flex;
+      gap: 38px;
+      font-weight: 500;
       font-size: 1em;
     }
-    input[type="email"] {
-      width: 95%;
-      padding: 7px;
-      margin-top: 8px;
-      margin-bottom: 18px;
+    .container {
+      display: flex;
+      max-width: 1120px;
+      margin: 39px auto 0 auto;
+      gap: 32px;
+    }
+    .sidebar {
+      min-width: 230px;
+      background: #e8edf7;
+      border-radius: 6px;
+      padding: 18px 0 18px 0;
+      color: #1a2859;
+      font-size: 1em;
+      box-shadow: 0 2px 11px #0001;
+      height: fit-content;
+      border: 1px solid #ced8ee;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0 0 0 13px;
+      margin: 0;
+    }
+    .sidebar li {
+      margin-bottom: 14px;
+      padding: 5px 0 5px 5px;
       border-radius: 3px;
-      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: background .18s;
     }
-    input[type="checkbox"] {
-      margin-bottom: 7px;
-    }
-    button {
+    .sidebar li.selected, .sidebar li:hover {
       background: #205087;
-      color: #fff;
-      padding: 10px 22px;
-      border: none;
+      color: white;
       font-weight: bold;
-      border-radius: 4px;
+    }
+    .main-content {
+      background: white;
+      flex: 1;
+      border-radius: 6px;
+      box-shadow: 0 2px 11px #0001;
+      padding: 26px 34px 30px 34px;
+      min-width: 320px;
+      border: 1px solid #ced8ee;
+    }
+    .breadcrumbs {
+      font-size: .97em;
+      color: #5a6cae;
+      margin-bottom: 2em;
+    }
+    .breadcrumbs span {
+      margin: 0 6px;
+    }
+    .title {
+      font-size: 1.3em;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .desc, .note {
+      font-size: 1em;
+      line-height: 1.6;
+      color: #3c4861;
+    }
+    .note {
+      margin-bottom: 22px;
+      margin-top: 12px;
+      font-size: 0.97em;
+    }
+    form {
+      margin-top: 18px;
+      margin-bottom: 18px;
+      font-size: 1em;
+    }
+    .form-group {
+      margin-bottom: 22px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      margin-top: 8px;
+    }
+    input[type="email"] {
+      width: 270px;
+      padding: 6px 8px;
+      border-radius: 3px;
+      border: 1px solid #a7afc8;
+      font-size: 1em;
+    }
+    .alert-options {
+      margin-top: 9px;
+      margin-bottom: 16px;
+    }
+    .alert-options label {
+      display: inline-block;
+      margin-right: 18px;
+      font-size: 1em;
       cursor: pointer;
     }
-    hr {
-      margin: 28px 0 18px 0;
-      border: 0;
-      height: 1px;
-      background: #e4e4e8;
+    input[type="checkbox"] {
+      margin-right: 6px;
+      accent-color: #205087;
     }
-    small {
-      color: #4a4a4a;
-      display: block;
-      margin-bottom: 16px;
-      line-height: 1.5;
+    .recaptcha {
+      background: #f9f9f9;
+      border: 1px solid #c6c6c6;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      width: 285px;
+      padding: 10px 12px;
+      margin-bottom: 23px;
+      margin-top: 8px;
     }
-    .footer {
-      font-size: 0.9em;
-      color: #888;
-      text-align: center;
-      margin-top: 18px;
-      padding-top: 8px;
-      border-top: 1px solid #e4e4e8;
+    .recaptcha-box {
+      width: 22px;
+      height: 22px;
+      border: 1.7px solid #b4bad3;
+      margin-right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+    }
+    .recaptcha-box input {
+      width: 21px;
+      height: 21px;
+      margin: 0;
+      accent-color: #205087;
+    }
+    .recaptcha-label {
+      font-size: 1em;
+    }
+    .recaptcha-img {
+      height: 38px;
+      margin-left: auto;
+      opacity: 0.77;
+      filter: grayscale(1);
+    }
+    button[type="submit"] {
+      background: #205087;
+      color: white;
+      font-weight: bold;
+      font-size: 1em;
+      border: none;
+      border-radius: 3px;
+      padding: 8px 25px;
+      cursor: pointer;
+      margin-top: 12px;
+      box-shadow: 0 2px 7px #20508722;
+      transition: background .18s;
+    }
+    button[type="submit"]:hover {
+      background: #153573;
     }
     .success-message {
-      color: #0a7700;
-      margin-bottom: 16px;
-      font-weight: bold;
       display: none;
+      color: #1c7811;
+      background: #e8ffd7;
+      border: 1px solid #adedc0;
+      border-radius: 5px;
+      padding: 10px 15px;
+      margin-top: 12px;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+    @media (max-width: 850px) {
+      .container {
+        flex-direction: column;
+        gap: 0px;
+        max-width: 99vw;
+        padding-right: 3vw;
+        padding-left: 3vw;
+      }
+      .sidebar {
+        margin-bottom: 16px;
+        min-width: unset;
+      }
+      .main-content {
+        min-width: unset;
+        padding: 20px 14px 24px 14px;
+      }
+      .header {
+        flex-direction: column;
+        gap: 14px;
+        padding: 20px 2vw 0 2vw;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="topbar">Investor Centre</div>
+  <div class="header">
+    <img src="https://investors.sonichealthcare.com/image/logo.png" alt="Sonic Healthcare Logo">
+    <div class="nav">
+      <span>Company Information</span>
+      <span>Announcements</span>
+      <span>Investor Information</span>
+      <span>Sustainability</span>
+      <span>FAQs</span>
+      <span>Contact</span>
+      <span>Go to main site</span>
+      <button style="background:#205087;color:white;border:none;padding:6px 18px;border-radius:3px;margin-left:12px;cursor:pointer;">Register for email updates</button>
+    </div>
+  </div>
   <div class="container">
-    <h1>Email Alerts</h1>
-    <p>
-      Enter your email address, then select the types of alert you’d like to subscribe to.<br>
-      Click ‘Submit’ to save your preferences.
-    </p>
-    <form id="alertForm">
-      <label for="email"><strong>Email:</strong></label><br>
-      <input type="email" id="email" name="email" required><br><br>
-
-      <strong>Alerts:</strong><br>
-      <input type="checkbox" id="announcement" name="alert_announcement">
-      <label for="announcement">Announcement</label><br>
-      <input type="checkbox" id="weekly" name="alert_weekly">
-      <label for="weekly">Weekly Summary</label><br><br>
-
-      <button type="submit">Submit</button>
-    </form>
-    <div id="success" class="success-message">Your preferences were submitted. Please check your email to confirm.</div>
-    <hr>
-    <small>
-      If this is your first time subscribing, a confirmation email will be sent soon after you submit.<br>
-      Open the email and click the link inside to finalise your subscription.<br>
-      You may return here anytime to modify your preferences.
-    </small>
-    <div class="footer">
-      © Sonic Healthcare | Disclaimer | Privacy Policy
+    <div class="sidebar">
+      <ul>
+        <li>Share Price & Tools</li>
+        <li class="selected">Investor Services
+          <ul style="margin-top:6px;">
+            <li style="background:inherit;color:inherit;">Investor Fact Sheet</li>
+            <li style="background:inherit;color:inherit;">My Shareholding</li>
+            <li class="selected">Email Alerts</li>
+            <li style="background:inherit;color:inherit;">Financial Tear Sheet</li>
+          </ul>
+        </li>
+        <li>Reports & Presentations</li>
+        <li>Dividends</li>
+        <li>Annual General Meetings</li>
+        <li>Event Calendar</li>
+        <li>American Depository Receipt Program</li>
+      </ul>
+    </div>
+    <div class="main-content">
+      <div class="breadcrumbs">
+        Investor Information <span>&gt;</span> Investor Services <span>&gt;</span> Email Alerts
+      </div>
+      <div class="title">Email Alerts</div>
+      <div class="desc">
+        Enter your email address, then select the types of alert you’d like to subscribe to. Click ‘Submit’ to save your preferences.
+      </div>
+      <div class="note">
+        If this is your first time subscribing, a confirmation email will be sent soon after you submit your preferences. Please open this email, and click the link listed inside to finalise your subscription to this service. You may return to this page at any time to modify your preferences.
+      </div>
+      <form id="alertForm">
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group alert-options">
+          <label><input type="checkbox" name="announcement"> Announcement</label>
+          <label><input type="checkbox" name="weekly"> Weekly Summary</label>
+        </div>
+        <div class="recaptcha">
+          <div class="recaptcha-box"><input type="checkbox" id="captcha" required></div>
+          <label class="recaptcha-label" for="captcha">I'm not a robot</label>
+          <img class="recaptcha-img" src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA">
+        </div>
+        <button type="submit">Submit</button>
+        <div class="success-message" id="successMsg">
+          Your preferences have been submitted! Please check your email for the confirmation link.
+        </div>
+      </form>
     </div>
   </div>
   <script>
-    document.getElementById('alertForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      document.getElementById('success').style.display = "block";
-      setTimeout(function() {
-        document.getElementById('success').style.display = "none";
-      }, 5000);
-    });
+    document.getElementById("alertForm").onsubmit = function(e) {
+      e.preventDefault();
+      document.getElementById("successMsg").style.display = "block";
+      setTimeout(function(){
+        document.getElementById("successMsg").style.display = "none";
+      }, 6000);
+      e.target.reset();
+    };
   </script>
 </body>
 </html>
