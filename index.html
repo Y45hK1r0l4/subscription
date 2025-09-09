@@ -1,65 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Security Test Landing Page — DO NOT ENTER CREDENTIALS</title>
+  <meta charset="UTF-8">
+  <title>Email Alerts - Sonic Healthcare</title>
   <style>
-    body { font-family: Inter, system-ui, Arial; margin:0; padding:24px; background:#f5f7fb; color:#111;}
-    .card { max-width:900px; margin:24px auto; padding:20px 28px; background:#fff; border-radius:12px; box-shadow:0 6px 18px rgba(18,38,63,0.08); }
-    h1 { margin:0 0 8px; font-size:20px; color:#c0392b; }
-    p.lead { margin:0 0 16px; color:#333; }
-    .meta { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
-    .badge { background:#eef6ff; color:#0d47a1; padding:6px 10px; border-radius:8px; font-weight:600; }
-    .danger { background:#fff3f3; border-left:4px solid #ff4d4f; padding:10px; border-radius:6px; color:#6b0000; }
-    pre { background:#0b1220; color:#cfe8ff; padding:12px; border-radius:8px; overflow:auto; }
-    .field { margin:10px 0; }
-    small { color:#666; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 420px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 22px 18px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+      border-radius: 8px;
+      border: 1px solid #e5e5ee;
+    }
+    h1 {
+      color: #205087;
+      font-size: 1.6em;
+      margin-bottom: 16px;
+    }
+    label {
+      margin-right: 8px;
+      font-size: 1em;
+    }
+    input[type="email"] {
+      width: 95%;
+      padding: 7px;
+      margin-top: 8px;
+      margin-bottom: 18px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+    input[type="checkbox"] {
+      margin-bottom: 7px;
+    }
+    button {
+      background: #205087;
+      color: #fff;
+      padding: 10px 22px;
+      border: none;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    hr {
+      margin: 28px 0 18px 0;
+      border: 0;
+      height: 1px;
+      background: #e4e4e8;
+    }
+    small {
+      color: #4a4a4a;
+      display: block;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .footer {
+      font-size: 0.9em;
+      color: #888;
+      text-align: center;
+      margin-top: 18px;
+      padding-top: 8px;
+      border-top: 1px solid #e4e4e8;
+    }
+    .success-message {
+      color: #0a7700;
+      margin-bottom: 16px;
+      font-weight: bold;
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>SECURITY TEST LANDING PAGE — DO NOT ENTER CREDENTIALS</h1>
-    <p class="lead">This page is intentionally a benign proof-of-concept used for demonstrating an open-redirect. It is <strong>not</strong> a cloned site and will not collect credentials.</p>
+  <div class="container">
+    <h1>Email Alerts</h1>
+    <p>
+      Enter your email address, then select the types of alert you’d like to subscribe to.<br>
+      Click ‘Submit’ to save your preferences.
+    </p>
+    <form id="alertForm">
+      <label for="email"><strong>Email:</strong></label><br>
+      <input type="email" id="email" name="email" required><br><br>
 
-    <div class="meta">
-      <div class="badge">Owner: your-domain.test</div>
-      <div class="badge">Purpose: Open-redirect PoC</div>
+      <strong>Alerts:</strong><br>
+      <input type="checkbox" id="announcement" name="alert_announcement">
+      <label for="announcement">Announcement</label><br>
+      <input type="checkbox" id="weekly" name="alert_weekly">
+      <label for="weekly">Weekly Summary</label><br><br>
+
+      <button type="submit">Submit</button>
+    </form>
+    <div id="success" class="success-message">Your preferences were submitted. Please check your email to confirm.</div>
+    <hr>
+    <small>
+      If this is your first time subscribing, a confirmation email will be sent soon after you submit.<br>
+      Open the email and click the link inside to finalise your subscription.<br>
+      You may return here anytime to modify your preferences.
+    </small>
+    <div class="footer">
+      © Sonic Healthcare | Disclaimer | Privacy Policy
     </div>
-
-    <div class="danger">
-      <strong>Important:</strong> This page is for reporting/testing only. Never use this to phish or impersonate any organization.
-    </div>
-
-    <div style="margin-top:16px">
-      <div class="field"><strong>Landing URL:</strong> <span id="url">loading…</span></div>
-      <div class="field"><strong>Referrer (where redirect came from):</strong> <span id="ref">loading…</span></div>
-      <div class="field"><strong>Client IP (if revealed by server):</strong> <small>(server-side logging recommended)</small></div>
-    </div>
-
-    <div style="margin-top:18px">
-      <p><strong>How to use for a report</strong> — 1) Provide the vulnerable redirect URL (e.g. `https://www.sonichealthcare.com/https://your-domain.test/%2f`) 2) Show screenshot / short video of browser address bar (trusted domain) → redirected landing (this page). 3) Include server logs (timestamp, referrer, user-agent) to prove control of the destination.</p>
-    </div>
-
-    <pre id="diagnostic">Gathering details...</pre>
   </div>
-
   <script>
-    // Show current URL and document.referrer for PoC clarity
-    const url = location.href;
-    const ref = document.referrer || "(no referrer sent)";
-    document.getElementById('url').textContent = url;
-    document.getElementById('ref').textContent = ref;
-    document.getElementById('diagnostic').textContent = [
-      'User Agent: ' + navigator.userAgent,
-      'Referrer: ' + ref,
-      'Location.href: ' + url,
-      'Timestamp: ' + new Date().toISOString(),
-      '',
-      'Notes:',
-      '- This page intentionally displays the referrer string to prove the redirect origin.',
-      '- For stronger evidence, include server logs (access log line) that match the timestamp above.'
-    ].join('\n');
+    document.getElementById('alertForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      document.getElementById('success').style.display = "block";
+      setTimeout(function() {
+        document.getElementById('success').style.display = "none";
+      }, 5000);
+    });
   </script>
 </body>
 </html>
